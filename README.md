@@ -22,16 +22,16 @@ classDiagram
         + Categoria: Number
         + Descrição: String
         --
-        + get nome(): void
-        + set nome(): void
-        + get endereço(): void
-        + set endereço(): void
-        + get Horario(): void
-        + set Horario(): void
-        + get Categoria(): void
-        + set Categoria(): void
-        + get Descrição(): void
-        + set Descrição(): void
+        + get nome(): String
+        + set nome(): String
+        + get endereço(): String
+        + set endereço(): String
+        + get Horario(): Date
+        + set Horario(): Date
+        + get Categoria(): Number
+        + set Categoria(): Number
+        + get Descrição(): String
+        + set Descrição(): String
         + visualizar(): void
     }
 
@@ -43,12 +43,12 @@ classDiagram
         + senha: Password
         + dataNascimento: Date
         --
-        + get nome(): void
-        + set nome(): void
-        + get senha(): void
-        + set senha(): void
-        + get dataNascimento(): void
-        + set dataNascimento(): void
+        + get nome(): String
+        + set nome(): String
+        + get senha(): Password
+        + set senha(): Password
+        + get dataNascimento(): Date
+        + set dataNascimento(): Date
         + consultarEventos(): void
         + participar(): void
         + consultarPresenca(): void
