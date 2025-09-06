@@ -1,3 +1,9 @@
+# Noti-Eventos
+
+Diagrama de classes
+#
+
+
 ```mermaid
 classDiagram
     %% ==================== Banco de Dados ====================
