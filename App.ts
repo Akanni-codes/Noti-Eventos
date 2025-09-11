@@ -1,9 +1,54 @@
+import { EventoVirtual } from "./src/model/EventoVirtual";
+import { EventoPresencial } from "./src/model/EventoPresencial";
+import { Usuario } from "./src/model/Usuario";
 import { colors } from "./src/util/Colors";
+import { EventoController } from "./src/controller/EventoController";
 
 const readlineSync = require("readline-sync");
 
+// Funções utilitárias para mensagens coloridas
+function sucesso(msg: string) {
+  console.log(colors.fg.greenstrong, msg, colors.reset);
+}
+function falha(msg: string) {
+  console.log(colors.fg.redstrong, msg, colors.reset);
+}
+function coleta(msg: string) {
+  console.log(colors.fg.yellowstrong, msg, colors.reset);
+}
+
 export function main() {
+  const promotor: EventoController = new EventoController();
+  const listaPresenca: Array<Usuario> = [];
+  const tipoCategoria: Array<string> = ["Presencial", "Virtual"];
+  let nome, endereco, descricao, link: string;
+  let horario: Date;
+  let Id, capacidade, categoria: number;
   let opcao: number;
+
+  promotor.cadastrar(
+    new EventoPresencial(
+      1,
+      "Show de Rock",
+      "Av. Brasil, 1000",
+      new Date("2024-12-31T21:00:00"),
+      1,
+      "Um show imperdível de rock!",
+      [],
+      5000
+    )
+  );
+  promotor.cadastrar(
+    new EventoVirtual(
+      2,
+      "Webinar de Tecnologia",
+      new Date("2025-02-17 20:30"),
+      2,
+      "",
+      [],
+      "https://example.com/webinar"
+    )
+  );
   while (true) {
     console.log(
       colors.bg.black,
@@ -11,19 +56,20 @@ export function main() {
       "*****************************************************"
     );
     console.log("                                                     ");
-    console.log("                BANCO DO BRAZIL COM Z                ");
+    console.log("                Noti-Eventos                          ");
     console.log("                                                     ");
     console.log("*****************************************************");
     console.log("                                                     ");
     console.log("            1 - Criar Evento                         ");
     console.log("            2 - Listar todos Eventos                 ");
-    console.log("            3 - Buscar Evento por Nome               ");
+    console.log("            3 - Buscar Evento por Id                  ");
     console.log("            4 - Atualizar Dados do Evento            ");
     console.log("            5 - Apagar Evento                        ");
-    console.log("            6 - ******                               ");
-    console.log("            7 - *********                            ");
-    console.log("            8 - *******************************      ");
-    console.log("            9 - Sair                                 ");
+    console.log("            6 - Cadastrar Usuário                     ");
+    console.log("            7 - Participar de Evento                  ");
+    console.log("            8 - Consultar Eventos por Usuário         ");
+    console.log("            9 - cancelar Participação em Evento      ");
+    console.log("            10 - Sair                                 ");
     console.log("                                                     ");
     console.log("*****************************************************");
     console.log(
@@ -34,50 +80,170 @@ export function main() {
     console.log("Entre com a opção desejada: ");
     opcao = readlineSync.questionInt("");
 
-    if (opcao == 9) {
-      console.log(
-        colors.fg.greenstrong,
-        "\nNoti-Eventos - O seu Show começa aqui!"
-      );
-      console.log("Obrigado por usar o Noti-Eventos");
-      console.log(colors.reset, "");
+    if (opcao == 10) {
+      sucesso("\nNoti-Eventos - O seu Show começa aqui!");
+      sucesso("Obrigado por usar o Noti-Eventos");
       process.exit(0);
     }
     switch (opcao) {
       case 1:
-        console.log("\nCriar Evento");
+        coleta("\nCriar Evento\n");
+        coleta("Entre com o nome do evento: ");
+        nome = readlineSync.question("");
+        coleta("Entre com a data e hora do evento (YYYY-MM-DD HH:MM): ");
+        horario = new Date(readlineSync.question(""));
+        coleta("Escolha a categoria do evento:");
+        categoria =
+          readlineSync.keyInSelect(tipoCategoria, "", { cancel: false }) + 1;
+
+        switch (categoria) {
+          case 1:
+            coleta("Entre com o endereço do evento: ");
+            endereco = readlineSync.question("");
+            coleta("Entre com a capacidade máxima de participantes: ");
+            capacidade = readlineSync.questionInt("");
+            coleta("Entre com a descrição do evento: ");
+            descricao = readlineSync.question("");
+            promotor.cadastrar(
+              new EventoPresencial(
+                promotor.gerarId(),
+                nome,
+                endereco,
+                horario,
+                categoria,
+                descricao,
+                listaPresenca,
+                capacidade
+              )
+            );
+
+            break;
+
+          case 2:
+            coleta("Entre com o link do evento virtual: ");
+            link = readlineSync.question("");
+            coleta("Entre com a descrição do evento: ");
+            descricao = readlineSync.question("");
+            promotor.cadastrar(
+              new EventoVirtual(
+                promotor.gerarId(),
+                nome,
+                horario,
+                categoria,
+                descricao,
+                listaPresenca,
+                link
+              )
+            );
+
+            break;
+        }
+
         restar();
         break;
 
       case 2:
-        console.log("\nListar todos Eventos");
+        coleta("\nListar todos Eventos");
+        promotor.listar();
         restar();
         break;
 
       case 3:
-        console.log("\nBuscar Evento por Nome");
+        coleta("\nBuscar Evento por Id");
+        console.log("Entre com o Id do evento: ");
+        Id = readlineSync.questionInt("");
+        promotor.buscarPorId(Id);
         restar();
         break;
 
       case 4:
-        console.log("\nAtualizar Dados do Evento");
-        restar();
+        coleta("\nAtualizar Dados do Evento");
+        console.log("Entre com o Id do evento: ");
+        Id = readlineSync.questionInt("");
+
+        let evento = promotor.buscarEventoNaLista(Id);
+        if (evento != null) {
+          coleta("Entre com o nome do evento: ");
+          nome = readlineSync.question("");
+          coleta("Entre com a data e hora do evento (YYYY-MM-DD HH:MM): ");
+          horario = new Date(readlineSync.question(""));
+          coleta("Escolha a categoria do evento:");
+          categoria =
+            readlineSync.keyInSelect(tipoCategoria, "", { cancel: false }) + 1;
+          switch (categoria) {
+            case 1:
+              coleta("Entre com o endereço do evento: ");
+              endereco = readlineSync.question("");
+              coleta("Entre com a capacidade máxima de participantes: ");
+              capacidade = readlineSync.questionInt("");
+              coleta("Entre com a descrição do evento: ");
+              descricao = readlineSync.question("");
+              promotor.atualizar(
+                new EventoPresencial(
+                  Id,
+                  nome,
+                  endereco,
+                  horario,
+                  categoria,
+                  descricao,
+                  evento.listaPresnca,
+                  capacidade
+                )
+              );
+              restar();
+              break;
+            case 2:
+              coleta("Entre com o link do evento virtual: ");
+              link = readlineSync.question("");
+              coleta("Entre com a descrição do evento: ");
+              descricao = readlineSync.question("");
+              promotor.atualizar(
+                new EventoVirtual(
+                  Id,
+                  nome,
+                  horario,
+                  categoria,
+                  descricao,
+                  evento.listaPresnca,
+                  link
+                )
+              );
+              restar();
+              break;
+          }
+        } else {
+          falha("Evento não encontrado!");
+          restar();
+        }
         break;
 
       case 5:
-        console.log("\nApagar Evento");
+        coleta("\nApagar Evento");
+        // Aqui você pode adicionar lógica de remoção e usar sucesso/falha conforme resultado
         restar();
         break;
 
       case 6:
+        coleta("\nCadastrar Usuário");
+        // Lógica de cadastro de usuário
         restar();
         break;
 
       case 7:
+        coleta("\nParticipar de Evento");
+        // Lógica de participação
         restar();
         break;
 
       case 8:
+        coleta("\nConsultar Eventos por Usuário");
+        // Lógica de consulta
+        restar();
+        break;
+
+      case 9:
+        coleta("\nCancelar Participação em Evento");
+        // Lógica de cancelamento
         restar();
         break;
     }
@@ -85,7 +251,7 @@ export function main() {
 
   function restar(): void {
     console.log(colors.reset, "");
-    console.log("\nPressione enter para continuar...");
+    coleta("\nPressione enter para continuar...");
     readlineSync.prompt();
   }
 }

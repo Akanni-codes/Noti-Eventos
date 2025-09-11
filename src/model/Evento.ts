@@ -26,8 +26,8 @@ export abstract class Evento {
       (this._descricao = descricao),
       (this._listaPresnca = listaPresenca);
   }
-  
- public get id() {
+
+  public get id() {
     return this._id;
   }
 
@@ -42,7 +42,6 @@ export abstract class Evento {
   public set nome(nome: string) {
     this._nome = nome;
   }
- 
 
   public get endereco() {
     return this._endereco;
@@ -84,11 +83,27 @@ export abstract class Evento {
     this._listaPresnca = listaPresnca;
   }
 
-  public inserirNaLista() {
-    
-  }
-
   public visualizar() {
-    
+    let categoria: string = "";
+    switch (this._categoria) {
+      case 1:
+        categoria = "Presencial";
+        break;
+      case 2:
+        categoria = "Virtual";
+        break;
+    }
+    console.log("Dados do Evento:");
+    console.log(`ID: ${this._id}`);
+    console.log(`Nome: ${this._nome}`);
+    console.log(`Endereço: ${this._endereco}`);
+    console.log(`Horário: ${this._horario}`);
+    console.log(`Categoria: ${categoria}`);
+    console.log(`Descrição: ${this._descricao}`);
+    console.log(
+      `Lista de Presença: ${this._listaPresnca
+        .map((u) => u.nome)
+        .join(", ")}\n\n`
+    );
   }
 }

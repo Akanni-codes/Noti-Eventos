@@ -32,45 +32,36 @@ export class Usuario {
 
   public set nome(nome: string) {
     this._nome = nome;
-  } 
-public get tipo() {
+  }
+  public get tipo() {
     return this._tipo;
-}
+  }
 
-public set tipo(tipo: number) {
+  public set tipo(tipo: number) {
     this._tipo = tipo;
-}
+  }
 
-public get senha() {
+  public get senha() {
     return this._senha;
-}
+  }
 
-public set senha(senha: string) {
+  public set senha(senha: string) {
     this._senha = senha;
-}
+  }
 
-public get dataNasc() {
+  public get dataNasc() {
     return this._dataNasc;
-}
+  }
 
-public set dataNasc(dataNasc: Date) {
+  public set dataNasc(dataNasc: Date) {
     this._dataNasc = dataNasc;
-}
+  }
 
-public consultarEventos() {
-    
-}
-
-public presenca() {
-    
-}
-
-public consultarPesenca() {
-    
-}
-
-public cancelarPesenca() {
-    
-}
-
+  public visualizar(): void {
+    console.log("Id: " + this._id);
+    console.log("Tipo: " + this._tipo);
+    console.log("Nome: " + this._nome);
+    console.log("Senha: " + this._senha);
+    console.log("Data de Nascimento: " + this._dataNasc);
+  }
 }
