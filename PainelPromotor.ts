@@ -220,8 +220,6 @@ export function main() {
         promotor.deletar(Id);
         restar();
         break;
-
-      
     }
   }
 
