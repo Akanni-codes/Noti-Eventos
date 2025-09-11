@@ -65,11 +65,7 @@ export function main() {
     console.log("            3 - Buscar Evento por Id                  ");
     console.log("            4 - Atualizar Dados do Evento            ");
     console.log("            5 - Apagar Evento                        ");
-    console.log("            6 - Cadastrar Usuário                     ");
-    console.log("            7 - Participar de Evento                  ");
-    console.log("            8 - Consultar Eventos por Usuário         ");
-    console.log("            9 - cancelar Participação em Evento      ");
-    console.log("            10 - Sair                                 ");
+    console.log("            6 - Sair                                ");
     console.log("                                                     ");
     console.log("*****************************************************");
     console.log(
@@ -80,7 +76,7 @@ export function main() {
     console.log("Entre com a opção desejada: ");
     opcao = readlineSync.questionInt("");
 
-    if (opcao == 10) {
+    if (opcao == 6) {
       sucesso("\nNoti-Eventos - O seu Show começa aqui!");
       sucesso("Obrigado por usar o Noti-Eventos");
       process.exit(0);
@@ -219,33 +215,13 @@ export function main() {
 
       case 5:
         coleta("\nApagar Evento");
-        // Aqui você pode adicionar lógica de remoção e usar sucesso/falha conforme resultado
+        console.log("Entre com o Id do evento: ");
+        Id = readlineSync.questionInt("");
+        promotor.deletar(Id);
         restar();
         break;
 
-      case 6:
-        coleta("\nCadastrar Usuário");
-        // Lógica de cadastro de usuário
-        restar();
-        break;
-
-      case 7:
-        coleta("\nParticipar de Evento");
-        // Lógica de participação
-        restar();
-        break;
-
-      case 8:
-        coleta("\nConsultar Eventos por Usuário");
-        // Lógica de consulta
-        restar();
-        break;
-
-      case 9:
-        coleta("\nCancelar Participação em Evento");
-        // Lógica de cancelamento
-        restar();
-        break;
+      
     }
   }
 
