@@ -1,10 +1,12 @@
 import { Evento } from "../model/Evento";
+import { Usuario } from "../model/Usuario";
 import { IEventoRepository } from "../repository/EventoRepository";
 import { colors } from "../util/Colors";
 
 export class EventoController implements IEventoRepository {
-  private eventos: Array<Evento> = new Array<Evento>();
   
+  private eventos: Array<Evento> = new Array<Evento>();
+
   Id: number = 0;
   listar(): void {
     for (let evento of this.eventos) {
@@ -61,8 +63,14 @@ export class EventoController implements IEventoRepository {
     }
     return null;
   }
+  
+  retirarPresenca(evento: Evento, usuario: Usuario): void {
+    evento.listaPresnca.splice(
+      evento.listaPresnca.indexOf(usuario),
+      1
+    );
+  }
   gerarId(): number {
     return ++this.Id;
   }
-  
 }

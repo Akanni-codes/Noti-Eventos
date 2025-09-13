@@ -1,18 +1,16 @@
 export class Usuario {
   private _id: number;
-  private _tipo: number;
   private _nome: string;
   private _senha: string;
   private _dataNasc: Date;
   constructor(
     id: number,
-    tipo: number,
+
     nome: string,
     senha: string,
     dataNasc: Date
   ) {
     (this._id = id),
-      (this._tipo = tipo),
       (this._nome = nome),
       (this._senha = senha),
       (this._dataNasc = dataNasc);
@@ -33,13 +31,6 @@ export class Usuario {
   public set nome(nome: string) {
     this._nome = nome;
   }
-  public get tipo() {
-    return this._tipo;
-  }
-
-  public set tipo(tipo: number) {
-    this._tipo = tipo;
-  }
 
   public get senha() {
     return this._senha;
@@ -57,11 +48,17 @@ export class Usuario {
     this._dataNasc = dataNasc;
   }
 
+  /**
+   * caulcularIdade
+   */
+  public caulcularIdade(): number {
+    return new Date().getFullYear() - this._dataNasc.getFullYear();
+  }
+
   public visualizar(): void {
     console.log("Id: " + this._id);
-    console.log("Tipo: " + this._tipo);
     console.log("Nome: " + this._nome);
     console.log("Senha: " + this._senha);
-    console.log("Data de Nascimento: " + this._dataNasc);
+    console.log("Idade: " + this.caulcularIdade() + " anos");
   }
 }

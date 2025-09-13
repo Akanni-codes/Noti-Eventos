@@ -1,23 +1,13 @@
-import { EventoVirtual } from "./src/model/EventoVirtual";
-import { EventoPresencial } from "./src/model/EventoPresencial";
-import { Usuario } from "./src/model/Usuario";
-import { colors } from "./src/util/Colors";
-import { EventoController } from "./src/controller/EventoController";
+import { EventoVirtual } from "../model/EventoVirtual";
+import { EventoPresencial } from "../model/EventoPresencial";
+import { Usuario } from "../model/Usuario";
+import { colors } from "../util/Colors";
+import { EventoController } from "../controller/EventoController";
+import { coleta, falha, sucesso } from "../util/Mensagens";
 
 const readlineSync = require("readline-sync");
 
-// Funções utilitárias para mensagens coloridas
-function sucesso(msg: string) {
-  console.log(colors.fg.greenstrong, msg, colors.reset);
-}
-function falha(msg: string) {
-  console.log(colors.fg.redstrong, msg, colors.reset);
-}
-function coleta(msg: string) {
-  console.log(colors.fg.yellowstrong, msg, colors.reset);
-}
-
-export function main() {
+export function PainelPromotor() {
   const promotor: EventoController = new EventoController();
   const listaPresenca: Array<Usuario> = [];
   const tipoCategoria: Array<string> = ["Presencial", "Virtual"];
@@ -57,6 +47,10 @@ export function main() {
     );
     console.log("                                                     ");
     console.log("                Noti-Eventos                          ");
+    console.log("                                                     ");
+    console.log("*****************************************************");
+    console.log("                                                     ");
+    console.log("               Painel do Promotor                    ");
     console.log("                                                     ");
     console.log("*****************************************************");
     console.log("                                                     ");
@@ -230,4 +224,4 @@ export function main() {
   }
 }
 
-main();
+PainelPromotor();

@@ -2,6 +2,7 @@ import { Evento } from "../model/Evento";
 import { Usuario } from "../model/Usuario";
 import { IUsuarioRepository } from "../repository/UsuarioRepository";
 import { colors } from "../util/Colors";
+import { falha, sucesso } from "../util/Mensagens";
 
 export class UsuarioController implements IUsuarioRepository {
   private participacoes: Array<Evento> = new Array<Evento>();
@@ -51,21 +52,14 @@ export class UsuarioController implements IUsuarioRepository {
   }
   participarEvento(idUsuario: number, evento: Evento): void {
     let buscaUser = this.buscarUsuarioNaLista(idUsuario);
-    if (buscaUser != null) {
+    if (buscaUser != null && evento != null) {
       this.participacoes.push(evento);
-      evento.listaPresnca.push(buscaUser);
-      console.log(
-        colors.fg.green,
-        `Usuário ${buscaUser.nome} adicionado ao evento ${evento.nome} com sucesso!`,
-        colors.reset
-      );
-    } else {
-      console.log(colors.fg.red, "Usuário não encontrado!", colors.reset);
-    }
+      evento.listaPresnca.push(buscaUser); 
+    } 
   }
   consultarParticipacao(idUsuario: number): void {
     let buscaUser = this.buscarUsuarioNaLista(idUsuario);
-    if (buscaUser != null) {
+    if (buscaUser != null) { if (this.participacoes.length != 0) {
       console.log(
         colors.fg.blue,
         `Eventos que o usuário ${buscaUser.nome} está participando:`,
@@ -74,6 +68,10 @@ export class UsuarioController implements IUsuarioRepository {
       this.participacoes.forEach((evento) => {
         evento.visualizar();
       });
+    }else {
+      falha("Nenhum evento encontrado para este usuário.");
+    }
+      
     }
   }
   cancelarParticipacao(idUsuario: number, evento: Evento): void {
