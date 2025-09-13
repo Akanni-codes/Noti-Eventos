@@ -6,11 +6,12 @@ import { colors } from "./src/util/Colors";
 import { coleta, falha, sucesso } from "./src/util/Mensagens";
 
 const readlineSync = require("readline-sync");
+
 export function main() {
   while (true) {
     const usuario: UsuarioController = new UsuarioController();
     const userlogin: Array<string> = ["Sim", "Não"];
-    let opcao: number = 0;
+    let opcao: number;
 
     console.log(
       colors.bg.black,
@@ -30,7 +31,8 @@ export function main() {
     console.log("                                                     ");
 
     coleta("Escolha uma opção: ");
-    opcao = readlineSync.questionInt();
+    opcao = readlineSync.questionInt("");
+
     if (opcao === 3) {
       sucesso("\nNoti-Eventos - O seu Show começa aqui!");
       sucesso("Obrigado por usar o Noti-Eventos");
@@ -68,12 +70,6 @@ export function main() {
         break;
     }
   }
-}
-
-function restar(): void {
-  console.log(colors.reset, "");
-  coleta("\nPressione enter para continuar...");
-  readlineSync.prompt();
 }
 
 main();

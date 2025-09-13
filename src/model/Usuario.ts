@@ -3,13 +3,7 @@ export class Usuario {
   private _nome: string;
   private _senha: string;
   private _dataNasc: Date;
-  constructor(
-    id: number,
-
-    nome: string,
-    senha: string,
-    dataNasc: Date
-  ) {
+  constructor(id: number, nome: string, senha: string, dataNasc: Date) {
     (this._id = id),
       (this._nome = nome),
       (this._senha = senha),
