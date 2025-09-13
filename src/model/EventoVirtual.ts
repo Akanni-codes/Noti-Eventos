@@ -22,7 +22,7 @@ export class EventoVirtual extends Evento {
     this._link = link;
   }
   public visualizar(): void {
-    super.visualizar();
     console.log("Link: " + this._link);
+    super.visualizar();
   }
 }

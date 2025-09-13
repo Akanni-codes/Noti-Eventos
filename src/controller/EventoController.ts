@@ -4,6 +4,7 @@ import { colors } from "../util/Colors";
 
 export class EventoController implements IEventoRepository {
   private eventos: Array<Evento> = new Array<Evento>();
+  
   Id: number = 0;
   listar(): void {
     for (let evento of this.eventos) {
@@ -63,4 +64,5 @@ export class EventoController implements IEventoRepository {
   gerarId(): number {
     return ++this.Id;
   }
+  
 }

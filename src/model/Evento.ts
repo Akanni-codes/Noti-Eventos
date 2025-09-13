@@ -103,7 +103,7 @@ export abstract class Evento {
     console.log(
       `Lista de Presença: ${this._listaPresnca
         .map((u) => u.nome)
-        .join(", ")}\n\n`
+        .join(", ")}`
     );
   }
 }

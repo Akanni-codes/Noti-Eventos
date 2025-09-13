@@ -24,7 +24,7 @@ export class EventoPresencial extends Evento {
     this._capacidade = capacidade;
   }
   public visualizar(): void {
-    super.visualizar();
     console.log("Capacidade: " + this._capacidade);
+    super.visualizar();
   }
 }

@@ -28,7 +28,7 @@ export function main() {
 
   promotor.cadastrar(
     new EventoPresencial(
-      1,
+      promotor.gerarId(),
       "Show de Rock",
       "Av. Brasil, 1000",
       new Date("2024-12-31T21:00:00"),
@@ -40,7 +40,7 @@ export function main() {
   );
   promotor.cadastrar(
     new EventoVirtual(
-      2,
+      promotor.gerarId(),
       "Webinar de Tecnologia",
       new Date("2025-02-17 20:30"),
       2,
