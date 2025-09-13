@@ -11,8 +11,42 @@ const readlineSync = require("readline-sync");
 export function main() {
   while (true) {
     const usuario: UsuarioController = new UsuarioController();
-    const userlogin: Array<string> = ["Sim", "Não"];
+    const promotor: EventoController = new EventoController();
+    const userlogin: Array<string> = ["Sim", "Nao"];
     let opcao: number;
+
+    // Dados iniciais para teste
+    usuario.cadastrar(
+      new Usuario(
+        usuario.gerarId(),
+        "Ana Silva",
+        "senha123",
+        new Date("1990-06-15")
+      )
+    );
+    promotor.cadastrar(
+      new EventoPresencial(
+        promotor.gerarId(),
+        "Show de Rock",
+        "Av. Brasil, 1000",
+        new Date("2024-12-31T21:00:00"),
+        1,
+        "Um show imperdível de rock!",
+        [],
+        5000
+      )
+    );
+    promotor.cadastrar(
+      new EventoVirtual(
+        promotor.gerarId(),
+        "Webinar de Tecnologia",
+        new Date("2025-02-17 20:30"),
+        2,
+        "",
+        [],
+        "https://example.com/webinar"
+      )
+    );
 
     console.log(
       colors.bg.black,
@@ -77,38 +111,6 @@ export function PainelUsuario() {
   let opcao: number;
   const promotor: EventoController = new EventoController();
   const usuario: UsuarioController = new UsuarioController();
-  // Dados iniciais para teste
-  usuario.cadastrar(
-    new Usuario(
-      usuario.gerarId(),
-      "Ana Silva",
-      "senha123",
-      new Date("1990-06-15")
-    )
-  );
-  promotor.cadastrar(
-    new EventoPresencial(
-      promotor.gerarId(),
-      "Show de Rock",
-      "Av. Brasil, 1000",
-      new Date("2024-12-31T21:00:00"),
-      1,
-      "Um show imperdível de rock!",
-      [],
-      5000
-    )
-  );
-  promotor.cadastrar(
-    new EventoVirtual(
-      promotor.gerarId(),
-      "Webinar de Tecnologia",
-      new Date("2025-02-17 20:30"),
-      2,
-      "",
-      [],
-      "https://example.com/webinar"
-    )
-  );
 
   while (true) {
     console.log(
@@ -218,29 +220,6 @@ export function PainelPromotor() {
   let Id, capacidade, categoria: number;
   let opcao: number;
 
-  promotor.cadastrar(
-    new EventoPresencial(
-      promotor.gerarId(),
-      "Show de Rock",
-      "Av. Brasil, 1000",
-      new Date("2024-12-31T21:00:00"),
-      1,
-      "Um show imperdível de rock!",
-      [],
-      5000
-    )
-  );
-  promotor.cadastrar(
-    new EventoVirtual(
-      promotor.gerarId(),
-      "Webinar de Tecnologia",
-      new Date("2025-02-17 20:30"),
-      2,
-      "",
-      [],
-      "https://example.com/webinar"
-    )
-  );
   while (true) {
     console.log(
       colors.bg.black,
