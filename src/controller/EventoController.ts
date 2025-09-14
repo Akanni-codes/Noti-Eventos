@@ -12,10 +12,9 @@ export class EventoController implements IEventoRepository {
   Id: number = 0;
 
   constructor() {
-    this.baixarEventos();
+    this.updateEventos();
   }
   listar(): void {
-    this.updateEventos();
     for (let evento of this.eventos) {
       evento.visualizar();
     }

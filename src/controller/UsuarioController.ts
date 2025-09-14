@@ -20,7 +20,6 @@ export class UsuarioController implements IUsuarioRepository {
       "./database/usuarios.json",
       JSON.stringify(this.usuarios)
     );
-    this.baixarUsuarios();
   }
   atualizar(usuario: Usuario): void {
     let buscaUser = this.buscarUsuarioNaLista(usuario.id);
