@@ -10,12 +10,10 @@ const readlineSync = require("readline-sync");
 const usuario: UsuarioController = new UsuarioController();
 const promotor: EventoController = new EventoController();
 
-usuario.baixarUsuarios();
+// usuario.baixarUsuarios();
 
 export function main() {
-  // const usuario: UsuarioController = new UsuarioController();
-  // const promotor: EventoController = new EventoController();
-  // usuario.baixarUsuarios();
+
   while (true) {
     const userlogin: Array<string> = ["Sim", "Nao"];
     let opcao: number;
@@ -83,8 +81,7 @@ export function main() {
 
 export function PainelUsuario() {
   let opcao: number;
-  // const promotor: EventoController = new EventoController();
-  // const usuario: UsuarioController = new UsuarioController();
+  
   
   
   while (true) {
@@ -193,8 +190,7 @@ export function PainelUsuario() {
 }
 
 export function PainelPromotor() {
-  usuario.baixarUsuarios();
-  // const promotor: EventoController = new EventoController();
+  
   const listaPresenca: Array<Usuario> = [];
   const tipoCategoria: Array<string> = ["Presencial", "Virtual"];
   let nome, endereco, descricao, link: string;

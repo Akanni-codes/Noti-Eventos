@@ -10,6 +10,10 @@ export class UsuarioController implements IUsuarioRepository {
   private participacoes: Array<Evento> = new Array<Evento>();
   private usuarios: Array<Usuario> = new Array<Usuario>();
   Id: number = 0;
+  constructor() {
+    this.updateUsuarios();
+  }
+
   cadastrar(usuario: Usuario): void {
     this.usuarios.push(usuario);
     fs.writeFileSync(
@@ -103,8 +107,9 @@ export class UsuarioController implements IUsuarioRepository {
     let usuario = this.usuarios.find((usuario) => usuario.id === id);
     return usuario || null;
   }
-  baixarUsuarios(): void {
-    const data = fs.readFileSync("./database/usuarios.json", "utf-8");
+  updateUsuarios(): void {
+    try {
+      const data = fs.readFileSync("./database/usuarios.json", "utf-8");
     let tabela = data ? JSON.parse(data) : Evento;
     for (let i = 0; i < tabela.length; i++) {
       this.usuarios.push(
@@ -117,5 +122,10 @@ export class UsuarioController implements IUsuarioRepository {
       );
       this.Id = tabela.length;
     }
+    sucesso("Usuários carregados com sucesso!");
+    } catch (err) {
+      falha("Erro ao carregar usuários: " + error(err) );
+    }
+    
   }
 }

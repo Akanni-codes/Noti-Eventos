@@ -9,13 +9,13 @@ import { EventoPresencial } from "../model/EventoPresencial";
 const fs = require("fs");
 export class EventoController implements IEventoRepository {
   private eventos: Array<Evento> = new Array<Evento>();
-
   Id: number = 0;
+
   constructor() {
     this.baixarEventos();
   }
   listar(): void {
-    this.baixarEventos();
+    this.updateEventos();
     for (let evento of this.eventos) {
       evento.visualizar();
     }
@@ -73,43 +73,42 @@ export class EventoController implements IEventoRepository {
   gerarId(): number {
     return ++this.Id;
   }
-  baixarEventos(): void {
+  updateEventos(): void {
     const data = fs.readFileSync("./database/eventos.json", "utf-8");
     let tabela = data ? JSON.parse(data) : Evento;
     try {
       for (let i = 0; i < tabela.length; i++) {
-      if (tabela[i]._link) {
-        this.eventos.push(
-          new EventoVirtual(
-            tabela[i]._id,
-            tabela[i]._nome,
-            tabela[i]._horario,
-            tabela[i]._categotia,
-            tabela[i]._descricao,
-            tabela[i]._listaPresnca,
-            tabela[i]._link
-          )
-        );
-      } else {
-        this.eventos.push(
-          new EventoPresencial(
-            tabela[i]._id,
-            tabela[i]._nome,
-            tabela[i]._endereco,
-            tabela[i]._horario,
-            tabela[i]._categotia,
-            tabela[i]._descricao,
-            tabela[i]._listaPresnca,
-            tabela[i]._capacidade
-          )
-        );
+        if (tabela[i].hasOwnProperty("_link")) {
+          this.eventos.push(
+            new EventoVirtual(
+              tabela[i]._id,
+              tabela[i]._nome,
+              tabela[i]._horario,
+              tabela[i]._categotia,
+              tabela[i]._descricao,
+              tabela[i]._listaPresnca,
+              tabela[i]._link
+            )
+          );
+        } else if (tabela[i].hasOwnProperty("_capacidade")) {
+          this.eventos.push(
+            new EventoPresencial(
+              tabela[i]._id,
+              tabela[i]._nome,
+              tabela[i]._endereco,
+              tabela[i]._horario,
+              tabela[i]._categotia,
+              tabela[i]._descricao,
+              tabela[i]._listaPresnca,
+              tabela[i]._capacidade
+            )
+          );
+        }
+        this.Id = this.eventos.length;
+        sucesso("Eventos carregados com sucesso!");
       }
-      this.Id = this.eventos.length ;
-      sucesso("Eventos carregados com sucesso!");
-    }
     } catch (err) {
-      falha("Erro ao carregar eventos: "+ error(err) );
+      falha("Erro ao carregar eventos: " + error(err));
     }
-    
   }
 }
