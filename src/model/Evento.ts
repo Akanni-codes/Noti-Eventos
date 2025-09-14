@@ -1,3 +1,4 @@
+import { coleta } from "../util/Colors";
 import { Usuario } from "./Usuario";
 
 export abstract class Evento {
@@ -100,10 +101,15 @@ export abstract class Evento {
     console.log(`Horário: ${this._horario}`);
     console.log(`Categoria: ${categoria}`);
     console.log(`Descrição: ${this._descricao}`);
-    console.log(
+    try {console.log(
       `Lista de Presença: ${this._listaPresnca
         .map((u) => u.nome)
         .join(", ")}`
-    );
+    );}
+     catch (error) 
+     {
+      coleta("Nenhum usuário cadastrado neste evento.")
+     }
+    
   }
 }

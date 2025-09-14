@@ -7,46 +7,18 @@ import { colors } from "./src/util/Colors";
 import { coleta, falha, sucesso } from "./src/util/Mensagens";
 
 const readlineSync = require("readline-sync");
+const usuario: UsuarioController = new UsuarioController();
+const promotor: EventoController = new EventoController();
+
+usuario.baixarUsuarios();
 
 export function main() {
+  // const usuario: UsuarioController = new UsuarioController();
+  // const promotor: EventoController = new EventoController();
+  // usuario.baixarUsuarios();
   while (true) {
-    const usuario: UsuarioController = new UsuarioController();
-    const promotor: EventoController = new EventoController();
     const userlogin: Array<string> = ["Sim", "Nao"];
     let opcao: number;
-
-    // Dados iniciais para teste
-    usuario.cadastrar(
-      new Usuario(
-        usuario.gerarId(),
-        "Ana Silva",
-        "senha123",
-        new Date("1990-06-15")
-      )
-    );
-    promotor.cadastrar(
-      new EventoPresencial(
-        promotor.gerarId(),
-        "Show de Rock",
-        "Av. Brasil, 1000",
-        new Date("2024-12-31T21:00:00"),
-        1,
-        "Um show imperdível de rock!",
-        [],
-        5000
-      )
-    );
-    promotor.cadastrar(
-      new EventoVirtual(
-        promotor.gerarId(),
-        "Webinar de Tecnologia",
-        new Date("2025-02-17 20:30"),
-        2,
-        "",
-        [],
-        "https://example.com/webinar"
-      )
-    );
 
     console.log(
       colors.bg.black,
@@ -100,6 +72,8 @@ export function main() {
             usuario.cadastrar(
               new Usuario(usuario.gerarId(), nome, senha, dataNasc)
             );
+            sucesso("Usuário cadastrado com sucesso!");
+            PainelUsuario();
             break;
         }
         break;
@@ -109,9 +83,10 @@ export function main() {
 
 export function PainelUsuario() {
   let opcao: number;
-  const promotor: EventoController = new EventoController();
-  const usuario: UsuarioController = new UsuarioController();
-
+  // const promotor: EventoController = new EventoController();
+  // const usuario: UsuarioController = new UsuarioController();
+  
+  
   while (true) {
     console.log(
       colors.bg.black,
@@ -143,7 +118,7 @@ export function PainelUsuario() {
     if (opcao === 5) {
       sucesso("\nNoti-Eventos - O seu Show começa aqui!");
       sucesso("Obrigado por usar o Noti-Eventos");
-      process.exit(0);
+      main();
     }
 
     switch (opcao) {
@@ -157,9 +132,15 @@ export function PainelUsuario() {
         let senha = readlineSync.question("");
         coleta("Entre com a data de nascimento do usuário (YYYY-MM-DD): ");
         let dataNasc = new Date(readlineSync.question(""));
-        usuario.cadastrar(
-          new Usuario(usuario.gerarId(), nome, senha, dataNasc)
-        );
+        try {
+          usuario.cadastrar(
+            new Usuario(usuario.gerarId(), nome, senha, dataNasc)
+          );
+          sucesso("Usuário cadastrado com sucesso!");
+        } catch (error) {
+          falha("Erro ao cadastrar usuário: " + error);
+        }
+
         restar();
         break;
       case 2:
@@ -212,7 +193,8 @@ export function PainelUsuario() {
 }
 
 export function PainelPromotor() {
-  const promotor: EventoController = new EventoController();
+  usuario.baixarUsuarios();
+  // const promotor: EventoController = new EventoController();
   const listaPresenca: Array<Usuario> = [];
   const tipoCategoria: Array<string> = ["Presencial", "Virtual"];
   let nome, endereco, descricao, link: string;
@@ -254,7 +236,7 @@ export function PainelPromotor() {
     if (opcao == 6) {
       sucesso("\nNoti-Eventos - O seu Show começa aqui!");
       sucesso("Obrigado por usar o Noti-Eventos");
-      process.exit(0);
+      main();
     }
     switch (opcao) {
       case 1:

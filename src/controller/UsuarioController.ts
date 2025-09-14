@@ -1,8 +1,10 @@
+import { error } from "console";
 import { Evento } from "../model/Evento";
 import { Usuario } from "../model/Usuario";
 import { IUsuarioRepository } from "../repository/UsuarioRepository";
 import { colors } from "../util/Colors";
 import { falha, sucesso } from "../util/Mensagens";
+const fs = require("fs");
 
 export class UsuarioController implements IUsuarioRepository {
   private participacoes: Array<Evento> = new Array<Evento>();
@@ -10,11 +12,11 @@ export class UsuarioController implements IUsuarioRepository {
   Id: number = 0;
   cadastrar(usuario: Usuario): void {
     this.usuarios.push(usuario);
-    console.log(
-      colors.fg.green,
-      "Usuário cadastrado com sucesso!",
-      colors.reset
+    fs.writeFileSync(
+      "./database/usuarios.json",
+      JSON.stringify(this.usuarios)
     );
+    this.baixarUsuarios();
   }
   atualizar(usuario: Usuario): void {
     let buscaUser = this.buscarUsuarioNaLista(usuario.id);
@@ -54,24 +56,24 @@ export class UsuarioController implements IUsuarioRepository {
     let buscaUser = this.buscarUsuarioNaLista(idUsuario);
     if (buscaUser != null && evento != null) {
       this.participacoes.push(evento);
-      evento.listaPresnca.push(buscaUser); 
-    } 
+      evento.listaPresnca.push(buscaUser);
+    }
   }
   consultarParticipacao(idUsuario: number): void {
     let buscaUser = this.buscarUsuarioNaLista(idUsuario);
-    if (buscaUser != null) { if (this.participacoes.length != 0) {
-      console.log(
-        colors.fg.blue,
-        `Eventos que o usuário ${buscaUser.nome} está participando:`,
-        colors.reset
-      );
-      this.participacoes.forEach((evento) => {
-        evento.visualizar();
-      });
-    }else {
-      falha("Nenhum evento encontrado para este usuário.");
-    }
-      
+    if (buscaUser != null) {
+      if (this.participacoes.length != 0) {
+        console.log(
+          colors.fg.blue,
+          `Eventos que o usuário ${buscaUser.nome} está participando:`,
+          colors.reset
+        );
+        this.participacoes.forEach((evento) => {
+          evento.visualizar();
+        });
+      } else {
+        falha("Nenhum evento encontrado para este usuário.");
+      }
     }
   }
   cancelarParticipacao(idUsuario: number, evento: Evento): void {
@@ -100,5 +102,20 @@ export class UsuarioController implements IUsuarioRepository {
   public buscarUsuarioNaLista(id: number): Usuario | null {
     let usuario = this.usuarios.find((usuario) => usuario.id === id);
     return usuario || null;
+  }
+  baixarUsuarios(): void {
+    const data = fs.readFileSync("./database/usuarios.json", "utf-8");
+    let tabela = data ? JSON.parse(data) : Evento;
+    for (let i = 0; i < tabela.length; i++) {
+      this.usuarios.push(
+        new Usuario(
+          tabela[i]._id,
+          tabela[i]._nome,
+          tabela[i]._senha,
+          new Date(tabela[i]._dataNasc)
+        )
+      );
+      this.Id = tabela.length;
+    }
   }
 }
